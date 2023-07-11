@@ -28,6 +28,12 @@ def create_depth_image(image):
         output = output.predicted_depth[0].numpy()
         output = output[PAD:-PAD][PAD:-PAD]
 
+        normalized_depth_map = cv2.normalize(output, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
+    
+        # Convert the normalized depth map to grayscale
+        grayscale_depth_map = cv2.cvtColor(normalized_depth_map, cv2.COLOR_GRAY2BGR)
+        cv2.imwrite("static/depth.jpg", grayscale_depth_map)
+
         return output
 
 
