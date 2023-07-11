@@ -1,10 +1,13 @@
-from image_to_pc import create_point_cloud
+from multiple_pc import create_point_clouds_sameangle
 
 
 def main():
-    image_path = "static/2.jpg"
+    image_paths = [
+        "static/sameangle/1.jpg",
+        "static/sameangle/2.jpg",
+    ]
 
-    create_point_cloud(image_path)
+    create_point_clouds_sameangle(image_paths)
 
     # surface reconstruction
 

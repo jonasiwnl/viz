@@ -1,13 +1,7 @@
 import cv2
-import numpy as np
 import open3d as o3d
-import torch
-from transformers import GLPNImageProcessor, GLPNForDepthEstimation
 
-# Image constants
-WIDTH = 640
-HEIGHT = 480
-PAD = 16
+from image import read_image, create_depth_image
 
 
 def create_point_cloud(path: str):
@@ -59,32 +53,8 @@ def create_point_cloud(path: str):
     # Visualize:
     o3d.visualization.draw_geometries([pcd])
 
-
-def create_depth_image(image):
-    # Use pretrained depth models
-    feature_extractor = GLPNImageProcessor.from_pretrained("vinvino02/glpn-nyu")
-    model = GLPNForDepthEstimation.from_pretrained("vinvino02/glpn-nyu")
-
-    # Tokenize input
-    inputs = feature_extractor(image, return_tensors="pt")
-
-    with torch.no_grad():
-        output = model(**inputs)
-
-        output = output.predicted_depth[0].numpy()
-        output = output[PAD:-PAD][PAD:-PAD]
-
-        return output
+    # return pcd
 
 
-def read_image(path: str):
-    image = cv2.imread(path)
-    image = cv2.resize(image, (WIDTH, HEIGHT))
-
-    # Print info
-    print(f"Image resolution: {image.shape}")
-    print(f"Data type: {image.dtype}")
-    print(f"Min value: {np.min(image)}")
-    print(f"Max value: {np.max(image)}")
-
-    return image
+if __name__ == "__main__":
+    create_point_cloud("static/multipleangles/1.jpg")
