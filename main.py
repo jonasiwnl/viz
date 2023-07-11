@@ -2,7 +2,7 @@ from image_to_pc import create_point_cloud
 
 
 def main():
-    image_path = "static/1.jpg",
+    image_path = "static/2.jpg"
 
     create_point_cloud(image_path)
 
